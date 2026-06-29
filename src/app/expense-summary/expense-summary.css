@@ -1,0 +1,66 @@
+.expense-list {
+  display: flex;
+  flex-direction: column;
+  height: 80vh;
+  overflow: hidden;
+}
+
+table,
+th,
+td {
+  border: 1px solid;
+  border-collapse: collapse;
+  padding: 10px;
+}
+
+th {
+  position: sticky;
+  top: 0;
+  background: #f9f9f9;
+  z-index: 2;
+}
+
+/* ✅ Fixed: was 'table-container' (missing dot) */
+.table-container {
+  flex: 1;              /* takes all remaining space */
+  overflow-y: auto;     /* scrolls internally */
+  min-height: 0;        /* critical for flex children to shrink */
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.btnCls {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.paginator-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: flex-end;
+  padding: 8px 0;
+  flex-shrink: 0;       /* never shrinks */
+}
+
+/* ✅ Totals always stay at the bottom */
+.totals-section {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;       /* never shrinks or moves */
+ /* padding-bottom: 10px; */
+}
+
+.total-card {
+  display: block;
+  padding: 10px;
+  border-radius: 20px;
+  width: 100%;
+}
+
+.total-card.green  { background-color: green; }
+.total-card.orange { background-color: orange; }

@@ -1,0 +1,11 @@
+<main class="dashboard-container">
+  <section class="form-section">
+    <app-header (expenseAdded) = "sentToExpenseSummary($event)"></app-header>
+  </section>
+  <section class="list-section">
+    <app-expense-summary [getNewData]="savedData"></app-expense-summary>
+  </section>
+  <aside class="chart-section ">
+    <app-expense-chart></app-expense-chart>
+  </aside>
+</main>

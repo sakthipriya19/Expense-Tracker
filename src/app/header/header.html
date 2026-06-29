@@ -1,0 +1,42 @@
+   <h1>Add Expense</h1>
+    <hr>
+<form>
+<span>Description:</span><br>
+    <input type="text" placeholder="Enter description" [(ngModel)]="newExpense.title" required name ="title"><br>
+    <span>
+        Amount:
+    </span><br>
+    <input type="number" placeholder="Enter amount" [(ngModel)]="newExpense.amount" name="amount"><br>
+    <span>
+        Category:
+    </span><br>
+    <select [(ngModel)]="newExpense.category" name="category">
+        <option>
+            Travel
+        </option>
+        <option>
+            Food
+        </option>
+        <option>
+            Shopping
+        </option>
+        <option>
+            HouseHold
+        </option>
+        <option>
+            Education
+        </option>
+        <option>
+            ChildCare
+        </option>
+    </select>
+    <span><br>
+        Date:
+    </span>
+    <input type="date" [(ngModel)]="newExpense.date" name="date" [max]="today"><br>
+    <hr>
+    <button class="btn-primary" (click) ="addExpense()"> {{btnNameChange ?'Edit Expense' : 'Add Expense'}}</button> 
+    <button class="btn-secondary" (click) ="clear()"> Clear</button>
+</form>
+ 
+    

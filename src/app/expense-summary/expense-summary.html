@@ -1,0 +1,80 @@
+<div class="expense-list">
+  <h2>Transactions Details</h2>
+  <div style="display: flex; gap: 10px; padding: 10px; flex-wrap: wrap; align-items: center;">
+    <div>
+      <label>
+        From:
+        <input type="date" [(ngModel)]="fromDate" name="fromDate" />
+      </label>
+      <label>
+        To:
+        <input type="date" [(ngModel)]="toDate" name="toDate" />
+      </label>
+    </div>
+    <div>
+      <button (click)="applyDateFilter()">Apply filter</button>
+      <button type="button" (click)="clearFilter()" style="margin-left: 5px;">Clear</button>
+    </div>
+  </div>
+  <button style="margin: 10px; width: fit-content" (click)="addToCSV()">Export To CSV</button>
+
+  <!-- Scrollable table container -->
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th>Category</th>
+          <th>Amount</th>
+          <th>Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (user of displayedExpenses; track user._id) {
+          <tr>
+            <td>{{ user.title }}</td>
+            <td>{{ user.category }}</td>
+            <td>{{ user.amount }}</td>
+            <td>{{ user.date }}</td>
+            <td>
+              <div class="btnCls">
+                <button (click)="onEdit(user)">Edit</button>
+                <button (click)="deleteItem(user._id)">Delete</button>
+              </div>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Paginator -->
+  <div class="paginator-controls">
+    <button type="button" (click)="previousPage()" [disabled]="pageIndex === 0">Previous</button>
+    <span>Page {{ pageIndex + 1 }} of {{ totalPages }}</span>
+    <button type="button" (click)="nextPage()" [disabled]="pageIndex >= totalPages - 1">Next</button>
+    <label>
+      Items per page:
+      <select [(ngModel)]="pageSize" (ngModelChange)="setPageSize($event)">
+        @for (size of pageSizeOptions; track size) {
+          <option [value]="size">{{ size }}</option>
+        }
+      </select>
+    </label>
+  </div>
+
+  <hr />
+
+  <!-- Fixed totals section -->
+  <div class="totals-section">
+    <div class="total-card green">
+      <h4>Total Expense</h4>
+      <div>{{ totalExpense | currency: 'INR' }}</div>
+    </div>
+    <div class="total-card orange">
+      <h4>Monthly Budget</h4>
+      <div>{{ 60000 | currency: 'INR' }}</div>
+    </div>
+  </div>
+</div>

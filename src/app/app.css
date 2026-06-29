@@ -1,0 +1,15 @@
+.dashboard-container {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+}
+
+.form-section, .list-section, .chart-section {
+  flex: 1; /* equal width */
+  background: #fff;
+  border-radius: 8px;
+  padding: 20px;
+}
+.list-section {
+  flex: 2; /* make middle section wider */
+}
