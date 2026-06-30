@@ -1,80 +1,109 @@
 <div class="expense-list">
-  <h2>Transactions Details</h2>
-  <div style="display: flex; gap: 10px; padding: 10px; flex-wrap: wrap; align-items: center;">
-    <div>
-      <label>
-        From:
-        <input type="date" [(ngModel)]="fromDate" name="fromDate" />
-      </label>
-      <label>
-        To:
-        <input type="date" [(ngModel)]="toDate" name="toDate" />
-      </label>
-    </div>
-    <div>
-      <button (click)="applyDateFilter()">Apply filter</button>
-      <button type="button" (click)="clearFilter()" style="margin-left: 5px;">Clear</button>
-    </div>
-  </div>
-  <button style="margin: 10px; width: fit-content" (click)="addToCSV()">Export To CSV</button>
+  <h2 class="section-title">Transactions</h2>
 
-  <!-- Scrollable table container -->
-  <div class="table-container">
-    <table>
-      <thead>
-        <tr>
-          <th>Description</th>
-          <th>Category</th>
-          <th>Amount</th>
-          <th>Date</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (user of displayedExpenses; track user._id) {
-          <tr>
-            <td>{{ user.title }}</td>
-            <td>{{ user.category }}</td>
-            <td>{{ user.amount }}</td>
-            <td>{{ user.date }}</td>
-            <td>
-              <div class="btnCls">
-                <button (click)="onEdit(user)">Edit</button>
-                <button (click)="deleteItem(user._id)">Delete</button>
-              </div>
-            </td>
-          </tr>
+  <!-- Loading state -->
+  @if (isLoading) {
+    <div class="loading-container">
+      <mat-spinner diameter="40"></mat-spinner>
+      <p class="loading-text">Loading expenses...</p>
+    </div>
+  }
+
+  @if (!isLoading) {
+    <!-- Filter row -->
+    <div class="filter-row">
+      <div class="date-filters">
+        <label class="filter-label">
+          From
+          <input type="date" [(ngModel)]="fromDate" name="fromDate" />
+        </label>
+        <label class="filter-label">
+          To
+          <input type="date" [(ngModel)]="toDate" name="toDate" />
+        </label>
+      </div>
+      <div class="filter-actions">
+        <button class="btn-filter" (click)="applyDateFilter()">Apply Filter</button>
+        <button class="btn-clear-filter" (click)="clearFilter()">Clear</button>
+        <button class="btn-export" (click)="addToCSV()" [disabled]="userData.length === 0">
+          Export CSV
+        </button>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="table-container">
+      @if (userData.length === 0) {
+        <div class="empty-state">
+          <div class="empty-icon">📭</div>
+          <p>No expenses found.</p>
+          <span>Add one using the form on the left.</span>
+        </div>
+      } @else {
+        <table>
+          <thead>
+            <tr>
+              <th>Description</th>
+              <th>Category</th>
+              <th>Amount</th>
+              <th>Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (user of displayedExpenses; track user._id) {
+              <tr [class.deleting]="deletingId === user._id">
+                <td>{{ user.title }}</td>
+                <td><span class="category-badge" [attr.data-cat]="user.category">{{ user.category }}</span></td>
+                <td class="amount-cell">{{ user.amount | currency:'INR' }}</td>
+                <td>{{ user.date | date:'dd MMM yyyy' }}</td>
+                <td>
+                  <div class="action-btns">
+                    <button class="btn-edit" (click)="onEdit(user)" [disabled]="deletingId === user._id" title="Edit">
+                      ✏️
+                    </button>
+                    <button class="btn-delete" (click)="deleteItem(user._id)" [disabled]="deletingId === user._id" title="Delete">
+                      @if (deletingId === user._id) { ⏳ } @else { 🗑️ }
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      }
+    </div>
+
+    <!-- Pagination -->
+    @if (userData.length > 0) {
+      <div class="paginator-controls">
+        <button (click)="previousPage()" [disabled]="pageIndex === 0">‹ Prev</button>
+        <span class="page-info">Page {{ pageIndex + 1 }} of {{ totalPages }}</span>
+        <button (click)="nextPage()" [disabled]="pageIndex >= totalPages - 1">Next ›</button>
+        <label class="page-size-label">
+          Rows:
+          <select [(ngModel)]="pageSize" (ngModelChange)="setPageSize($event)">
+            @for (size of pageSizeOptions; track size) {
+              <option [value]="size">{{ size }}</option>
+            }
+          </select>
+        </label>
+      </div>
+    }
+
+    <!-- Totals -->
+    <div class="totals-section">
+      <div class="total-card total-expense">
+        <div class="total-label">Total Expenses</div>
+        <div class="total-value">{{ totalExpense | currency:'INR' }}</div>
+      </div>
+      <div class="total-card total-budget" [class.over-budget]="totalExpense > 60000">
+        <div class="total-label">Monthly Budget</div>
+        <div class="total-value">{{ 60000 | currency:'INR' }}</div>
+        @if (totalExpense > 60000) {
+          <div class="budget-warning">⚠️ Over budget!</div>
         }
-      </tbody>
-    </table>
-  </div>
-
-  <!-- Paginator -->
-  <div class="paginator-controls">
-    <button type="button" (click)="previousPage()" [disabled]="pageIndex === 0">Previous</button>
-    <span>Page {{ pageIndex + 1 }} of {{ totalPages }}</span>
-    <button type="button" (click)="nextPage()" [disabled]="pageIndex >= totalPages - 1">Next</button>
-    <label>
-      Items per page:
-      <select [(ngModel)]="pageSize" (ngModelChange)="setPageSize($event)">
-        @for (size of pageSizeOptions; track size) {
-          <option [value]="size">{{ size }}</option>
-        }
-      </select>
-    </label>
-  </div>
-
-  <hr />
-
-  <!-- Fixed totals section -->
-  <div class="totals-section">
-    <div class="total-card green">
-      <h4>Total Expense</h4>
-      <div>{{ totalExpense | currency: 'INR' }}</div>
+      </div>
     </div>
-    <div class="total-card orange">
-      <h4>Monthly Budget</h4>
-      <div>{{ 60000 | currency: 'INR' }}</div>
-    </div>
-  </div>
+  }
 </div>

@@ -1,9 +1,16 @@
-<h2>Expense Breakdown</h2>
-<div style="width: 400px; margin: auto;">
-  <canvas baseChart
-  [data]="pieChartData()"
-  [options]="pieChartOptions"
-  [type]="'pie'">
-</canvas>
+<h2 class="section-title">Expense Breakdown</h2>
 
-</div>
+@if (pieChartData().datasets[0].data.length === 0) {
+  <div class="empty-chart">
+    <div class="empty-icon">📊</div>
+    <p>No data yet. Add an expense to see the chart.</p>
+  </div>
+} @else {
+  <div class="chart-wrapper">
+    <canvas baseChart
+      [data]="pieChartData()"
+      [options]="pieChartOptions"
+      [type]="'pie'">
+    </canvas>
+  </div>
+}

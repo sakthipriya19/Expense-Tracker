@@ -1,26 +1,117 @@
+h1 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin-bottom: 12px;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #eee;
+  margin: 12px 0;
+}
+
 form {
   display: flex;
   flex-direction: column;
+  gap: 14px;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.field-label {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #555;
+  letter-spacing: 0.02em;
+}
+
+.required {
+  color: #e74c3c;
+  margin-left: 2px;
+}
+
+input,
+select {
+  padding: 10px 12px;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background: #f9fafb;
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+  width: 100%;
+}
+
+input:hover:not(:disabled),
+select:hover:not(:disabled) {
+  border-color: #b0b8ff;
+  background: #fff;
+}
+
+input:disabled,
+select:disabled {
+  background: #f0f0f0;
+  cursor: not-allowed;
+}
+
+.btn-row {
+  display: flex;
   gap: 10px;
 }
 
-input, select {
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+.btn-primary {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #4f6ef7, #7c3aed);
+  color: #fff;
+  border: none;
+  padding: 11px 16px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  box-shadow: 0 3px 12px rgba(79, 110, 247, 0.35);
 }
 
-.btn-primary {
-  background-color: #0078d7;
-  color: white;
-  border: none;
-  padding: 8px;
-  border-radius: 4px;
+.btn-primary:hover:not(:disabled) {
+  box-shadow: 0 6px 18px rgba(79, 110, 247, 0.45);
+  transform: translateY(-1px);
 }
 
 .btn-secondary {
-  background-color: #ccc;
-  border: none;
-  padding: 8px;
-  border-radius: 4px;
+  flex: 1;
+  background: #f3f4f6;
+  border: 1.5px solid #e0e0e0;
+  color: #444;
+  padding: 11px 16px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: #e9eaf0;
+  border-color: #c8cad4;
+  transform: translateY(-1px);
+}
+
+/* Inline saving spinner */
+.spinner-inline {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }

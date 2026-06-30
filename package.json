@@ -2,16 +2,12 @@
   "name": "ExpenseTracker",
   "version": "0.0.0",
   "scripts": {
-  
-
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:ExpenseTracker": "node dist/ExpenseTracker/server/server.mjs",
-
-
     "generate:test": "node analyze-and-generate-tests.js",
     "generate:all": "node bulk-generate.js",
     "test:auto": "npm run generate:all && ng test"
@@ -19,6 +15,7 @@
   "private": true,
   "packageManager": "npm@10.9.8",
   "dependencies": {
+    "@angular/animations": "^21.2.17",
     "@angular/cdk": "^21.2.14",
     "@angular/common": "^21.2.0",
     "@angular/compiler": "^21.2.0",

@@ -13,8 +13,7 @@ import { Expense } from './interface/expense';
 export class App {
   savedData:Expense | null = null;
   protected readonly title = signal('ExpenseTracker');
-  sentToExpenseSummary(data:Expense){
+  sentToExpenseSummary(data: Expense) {
     this.savedData = data;
-    console.log(this.savedData)
   }
 }

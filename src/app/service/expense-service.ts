@@ -15,7 +15,7 @@ export class ExpenseService {
 
   constructor(private http: HttpClient) {}
 
-  setEditExpense(expense: Expense) {
+  setEditExpense(expense: Expense | null) {
     this.editExpenseSource.next(expense);
   }
 
