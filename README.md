@@ -104,3 +104,6 @@ A `.vercelignore` excludes `node_modules`, `dist`, and `.angular` from the uploa
 
 ## License
 This repository does not include a license file. Add one if you want to share or publish this project publicly.
+
+<img width="2872" height="1614" alt="image" src="https://github.com/user-attachments/assets/476ea755-7be3-4847-a07b-372ba8c61da7" />
+
