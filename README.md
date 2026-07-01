@@ -5,7 +5,7 @@ An Angular-based expense tracker application that records, edits, and visualizes
 This project is built with Angular 21 and includes a pie chart summary of spending categories, editable expense entries, and a total expense overview.
 
 **Live app:** https://expense-tracker-beta-eight-24.vercel.app
-<img width="2872" height="1614" alt="image" src="https://github.com/user-attachments/assets/476ea755-7be3-4847-a07b-372ba8c61da7" />
+
 
 ---
 
